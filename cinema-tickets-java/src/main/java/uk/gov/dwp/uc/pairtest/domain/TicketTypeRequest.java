@@ -4,26 +4,17 @@ package uk.gov.dwp.uc.pairtest.domain;
  * Immutable Object
  */
 
-public class TicketTypeRequest {
+import java.util.Objects;
 
-    private int noOfTickets;
-    private Type type;
+public record TicketTypeRequest(Type type, int noOfTickets) {
 
-    public TicketTypeRequest(Type type, int noOfTickets) {
-        this.type = type;
-        this.noOfTickets = noOfTickets;
+    public enum Type { INFANT, CHILD, ADULT }
+
+    public TicketTypeRequest {
+        Objects.requireNonNull(type, "type must not be null");
+        if (noOfTickets < 0) {
+            throw new IllegalArgumentException("noOfTickets must be >= 0");
+        }
     }
-
-    public int getNoOfTickets() {
-        return noOfTickets;
-    }
-
-    public Type getTicketType() {
-        return type;
-    }
-
-    public enum Type {
-        ADULT, CHILD , INFANT
-    }
-
 }
+
